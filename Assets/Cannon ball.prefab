@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212348356474601474}
   - component: {fileID: 50193028002308814}
   - component: {fileID: 58918379483967744}
+  - component: {fileID: 114737570813529392}
   m_Layer: 0
   m_Name: Cannon ball
   m_TagString: Untagged
@@ -77,6 +78,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &114737570813529392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1710934556264430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf4de65a4e92fa40a0370b1ac94ae2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToLive: 1
 --- !u!212 &212348356474601474
 SpriteRenderer:
   m_ObjectHideFlags: 1

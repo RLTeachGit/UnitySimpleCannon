@@ -27,5 +27,13 @@ public class Fire : MonoBehaviour {
             Rigidbody2D tBallRB = tGO.GetComponent<Rigidbody2D>();
             tBallRB.AddForce((FireFrom.position - FireBase.position).normalized * FireForce, ForceMode2D.Impulse);
         }
-	}
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            transform.Rotate(0, 0, 1.0f);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            transform.Rotate(0, 0, -1.0f);
+        }
+    }
 }
