@@ -10,6 +10,7 @@ public class BlockTile : MonoBehaviour {
     
     Rigidbody2D     mRB;
     SpriteRenderer  mSR;
+    public GameObject  PSPrefab;
 
     public  bool Fixed=true;
     public  enum Weights {
@@ -79,9 +80,18 @@ public class BlockTile : MonoBehaviour {
         if(vCollision.gameObject.tag=="CannonBall") {
             float tForce = vCollision.relativeVelocity.magnitude*vCollision.otherRigidbody.mass;
             CalculateDamage(tForce);
+            MakeSmoke((Vector2)vCollision.contacts[0].point,Mathf.Atan2(vCollision.contacts[0].normal.y, vCollision.contacts[0].normal.x));
         }
     }
 
+
+
+    void    MakeSmoke(Vector2 vPoint, float vAngle) {
+        GameObject tGO=Instantiate(PSPrefab);
+        Destroy(tGO, 1.5f);
+        tGO.transform.position = vPoint;
+        tGO.transform.Rotate(0, 0, vAngle*Mathf.Rad2Deg);
+    }
 
     void    CalculateDamage(float vForce) {
         Health = Health - (vForce / 100.0f);
@@ -92,7 +102,13 @@ public class BlockTile : MonoBehaviour {
         } else if (Health >= 0.0f ) {
             mSR.sprite = AltSprites[2];
         } else {
-            Destroy(gameObject);                               
+            SetWeigth(Weights.Heavy);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D vCollision) {
+        if (vCollision.gameObject.GetComponent<Camera>() != null) {    //If we leave Camera Box collider we die
+            Destroy(gameObject);
         }
     }
 }
