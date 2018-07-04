@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AutoKill : MonoBehaviour {
 
-    public float TimeToLive=1.0f;
+    public float TimeToLive=1.5f;
 
 	// Use this for initialization
 	void Start () {

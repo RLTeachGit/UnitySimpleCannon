@@ -11,7 +11,7 @@ public class Fire : MonoBehaviour {
     public Transform FireFrom;
     public Transform FireBase;
 
-    public float MaxFireForce=20.0f;
+    public float MaxFireForce=20.0f;        //Exposed key variabled in editor
     public float MinFireForce = 5.0f;
     public float RotateSpeed = 10.0f;
 
@@ -42,10 +42,10 @@ public class Fire : MonoBehaviour {
 
     bool mFire=false;
 	private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0)) {      //Player presses fire
             mFire = true;
         }
-        if(Input.GetKey(KeyCode.LeftArrow)) {
+        if(Input.GetKey(KeyCode.LeftArrow)) {           //change gun power
             UpdatePower(10.0f * Time.deltaTime);
             
         }
@@ -58,7 +58,7 @@ public class Fire : MonoBehaviour {
         mFireForce = Mathf.Clamp(mFireForce+vDelta, MinFireForce, MaxFireForce);
     }
 
-	void FixedUpdate () {
+	void FixedUpdate () {       //Using Physics so use fixed update
         if(mFire) {
             GameObject tGO=Instantiate(BallPrefab, FireFrom.position, Quaternion.identity);
             Rigidbody2D tBallRB = tGO.GetComponent<Rigidbody2D>();
@@ -75,7 +75,7 @@ public class Fire : MonoBehaviour {
         mRB.rotation = mZBaseRotation+mZRotation;
     }
 
-    private void LateUpdate() {
+    private void LateUpdate() {     //Update power slider
         PowerMeterImage.rectTransform.localScale = new Vector2(1.0f - (mFireForce / MaxFireForce), 1);
     }
 }

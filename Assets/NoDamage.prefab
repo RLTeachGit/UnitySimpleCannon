@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 61444580639350484}
   - component: {fileID: 114870654159111226}
   m_Layer: 0
-  m_Name: Block
+  m_Name: NoDamage
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,10 +103,7 @@ MonoBehaviour:
   Fixed: 1
   TakeDamage: 1
   Weight: 3
-  AltSprites:
-  - {fileID: 21300002, guid: fd8b2b8f1c2a142ffb56c394e5283814, type: 3}
-  - {fileID: 21300006, guid: fd8b2b8f1c2a142ffb56c394e5283814, type: 3}
-  - {fileID: 21300004, guid: fd8b2b8f1c2a142ffb56c394e5283814, type: 3}
+  AltSprites: []
   Health: 1
 --- !u!212 &212684909234682904
 SpriteRenderer:
@@ -143,7 +140,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300002, guid: fd8b2b8f1c2a142ffb56c394e5283814, type: 3}
+  m_Sprite: {fileID: 21300012, guid: fd8b2b8f1c2a142ffb56c394e5283814, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

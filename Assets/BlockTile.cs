@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class BlockTile : MonoBehaviour {
     
-    Rigidbody2D     mRB;
+    Rigidbody2D     mRB;        //These are exposed on the editor
     SpriteRenderer  mSR;
     public GameObject  PSPrefab;
 
@@ -21,6 +21,8 @@ public class BlockTile : MonoBehaviour {
         ,Undefined
     }
 
+    public bool TakeDamage = true;
+
     public  Weights Weight = Weights.Light;
     public Sprite[] AltSprites;
 
@@ -31,7 +33,7 @@ public class BlockTile : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
-        mRB = GetComponent<Rigidbody2D>();
+        mRB = GetComponent<Rigidbody2D>();          //Cache referenced to key compoenents for speed
         mSR = GetComponent<SpriteRenderer>();
         SetWeigth(Weight);
         CalculateDamage(0.0f);
@@ -42,7 +44,7 @@ public class BlockTile : MonoBehaviour {
         SetWeigth(Weight);
 	}
 
-    void    SetWeigth(Weights vNewWeight) {
+    void    SetWeigth(Weights vNewWeight) {     //Dynamically sets physics weights based on block type
         if(vNewWeight!=mOldWeight) {
             switch (vNewWeight) {
                 case Weights.Light:
@@ -76,24 +78,35 @@ public class BlockTile : MonoBehaviour {
     }
 
 
-    void OnCollisionEnter2D(Collision2D vCollision) {
-        if(vCollision.gameObject.tag=="CannonBall") {
-            float tForce = vCollision.relativeVelocity.magnitude*vCollision.otherRigidbody.mass;
+    protected virtual void    BeenHit(Collision2D vCollision) {
+        if (!TakeDamage) return;        //Some blocks dont take damage
+        if (vCollision.gameObject.tag == "CannonBall") {        //What were we hit by?
+            float tForce = vCollision.relativeVelocity.magnitude * vCollision.otherRigidbody.mass;  //Do Canon ball damage
             CalculateDamage(tForce);
-            MakeSmoke((Vector2)vCollision.contacts[0].point,Mathf.Atan2(vCollision.contacts[0].normal.y, vCollision.contacts[0].normal.x));
+            MakeSmoke((Vector2)vCollision.contacts[0].point, Mathf.Atan2(vCollision.contacts[0].normal.y, vCollision.contacts[0].normal.x));
+        } else if (vCollision.gameObject.tag == "CannonBall") {
+            float tForce = vCollision.relativeVelocity.magnitude * vCollision.otherRigidbody.mass;  //do Fall damage but ignore small falls
+            if(tForce>2.0f) {
+                CalculateDamage(30.0f); //However to lots of damage if valiud fall
+            }
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D vCollision) {
+        BeenHit(vCollision);
     }
 
 
 
-    void    MakeSmoke(Vector2 vPoint, float vAngle) {
+    void    MakeSmoke(Vector2 vPoint, float vAngle) {       //Trigger particles
         GameObject tGO=Instantiate(PSPrefab);
         Destroy(tGO, 1.5f);
         tGO.transform.position = vPoint;
         tGO.transform.Rotate(0, 0, vAngle*Mathf.Rad2Deg);
     }
 
-    void    CalculateDamage(float vForce) {
+    void    CalculateDamage(float vForce) {     //Work out which bloick to show when damaged
+        if (!TakeDamage) return;        //Some blocks dont take damage
         Health = Health - (vForce / 100.0f);
         if(Health>=0.6f) {
             mSR.sprite = AltSprites[0];            
@@ -106,7 +119,7 @@ public class BlockTile : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit2D(Collider2D vCollision) {
+    private void OnTriggerExit2D(Collider2D vCollision) {       //Kill objects which leave game world
         if (vCollision.gameObject.GetComponent<Camera>() != null) {    //If we leave Camera Box collider we die
             Destroy(gameObject);
         }
