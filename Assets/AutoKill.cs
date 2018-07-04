@@ -10,9 +10,10 @@ public class AutoKill : MonoBehaviour {
 	void Start () {
         Destroy(gameObject, TimeToLive);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void OnTriggerExit2D(Collider2D vCollision) {
+        if(vCollision.gameObject.GetComponent<Camera>()!=null) {    //If we leave Camera Box collider we die
+            Destroy(gameObject);
+        }
+    }
 }

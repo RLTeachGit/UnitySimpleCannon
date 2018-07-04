@@ -34,7 +34,7 @@ public class Fire : MonoBehaviour {
         mRB = GetComponent<Rigidbody2D>();
         Debug.Assert(mRB != null, "Rigidbody2D missing");
         mZBaseRotation = mRB.rotation;
-        mFireForce = MaxFireForce * 0.2f;
+        mFireForce = MaxFireForce*0.55f;
         UpdatePower(0.0f);
     }
 
